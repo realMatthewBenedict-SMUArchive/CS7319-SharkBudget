@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart' as db;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart' as db_ffi;
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart' as db_web;
@@ -67,7 +70,10 @@ class _LoginScreenState extends State<LoginScreen> {
     if (kIsWeb) {
       return basename;
     }
-    return db.getDatabasesPath();
+    final support = await getApplicationSupportDirectory();
+    final dir = path.join(support.path, "databases");
+    await Directory(dir).create(recursive: true);
+    return path.join(dir, basename);
   }
 
   @override

@@ -1,6 +1,7 @@
 FLUTTER_ROOT=$(dirname "$(dirname "$(which flutter)")")
 DART_SDK_PATH="$FLUTTER_ROOT/bin/cache/dart-sdk"
-clang -shared -fPIC \
+mkdir -p macos/Runner/Frameworks && \
+    clang -shared -fPIC \
     -mmacosx-version-min=10.15 \
     -I"$DART_SDK_PATH/include" \
     -o macos/Runner/Frameworks/libbackend.dylib \
